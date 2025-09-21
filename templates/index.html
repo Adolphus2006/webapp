@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Student Management System</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Student Management System</h1>
+
+        <!-- Add Student Form -->
+        <form action="{{ url_for('add') }}" method="POST" class="add-form">
+            <input type="text" name="name" placeholder="Full name" required>
+            <input type="number" name="age" placeholder="Age" min="1" required>
+            <input type="text" name="department" placeholder="Department" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <button type="submit">Add Student</button>
+        </form>
+
+        <!-- Student List -->
+        <h2>Student List</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Department</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if students %}
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student[0] }}</td>
+                        <td>{{ student[1] }}</td>
+                        <td>{{ student[2] }}</td>
+                        <td>{{ student[3] }}</td>
+                        <td>{{ student[4] }}</td>
+                        <td>
+                            <a href="{{ url_for('delete', id=student[0]) }}"
+                               onclick="return confirm('Are you sure you want to delete {{ student[1] }}?');"
+                               class="delete-link">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6">No students yet. Use the form above to add a student.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
